@@ -1,59 +1,84 @@
-import { useState, useEffect, useMemo } from 'react';
-import { Product } from '../types/Product';
-import { products as staticProducts } from '../data/products';
+import { useState, useCallback } from 'react';
+import { Product, SearchMeta } from '../types/Product';
+import { api, ApiError } from '../services/api';
 
-const ITEMS_PER_PAGE = 8;
+const ITEMS_PER_PAGE = 12;
 
-export const useProducts = (searchTerm: string) => {
-  const [displayedProducts, setDisplayedProducts] = useState<Product[]>([]);
+export const useProducts = () => {
+  const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const [error, setError] = useState<string | null>(null);
+  const [meta, setMeta] = useState<SearchMeta | null>(null);
+  const [currentQuery, setCurrentQuery] = useState<string>('');
 
-  // Filter products based on search term
-  const filteredProducts = useMemo(() => {
-    if (!searchTerm.trim()) {
-      return staticProducts;
-    }
-    
-    const lowercaseSearch = searchTerm.toLowerCase().trim();
-    return staticProducts.filter(product =>
-      product.name.toLowerCase().includes(lowercaseSearch) ||
-      product.description.toLowerCase().includes(lowercaseSearch) ||
-      product.category.toLowerCase().includes(lowercaseSearch)
-    );
-  }, [searchTerm]);
-
-  // Reset pagination when search term changes
-  useEffect(() => {
-    setPage(1);
-    setDisplayedProducts(filteredProducts.slice(0, ITEMS_PER_PAGE));
-  }, [filteredProducts]);
-
-  const loadMore = () => {
+  const performSearch = useCallback(async (
+    query: string,
+    fromOffset: number = 0,
+    reset: boolean = true
+  ) => {
     if (loading) return;
     
     setLoading(true);
+    setError(null);
     
-    // Simulate loading delay
-    setTimeout(() => {
-      const nextPage = page + 1;
-      const startIndex = (nextPage - 1) * ITEMS_PER_PAGE;
-      const endIndex = startIndex + ITEMS_PER_PAGE;
-      const newProducts = filteredProducts.slice(startIndex, endIndex);
+    try {
+      const response = await api.searchProducts(query, fromOffset, ITEMS_PER_PAGE);
       
-      setDisplayedProducts(prev => [...prev, ...newProducts]);
-      setPage(nextPage);
+      if (reset) {
+        setProducts(response.products);
+        setCurrentQuery(query);
+      } else {
+        setProducts(prev => [...prev, ...response.products]);
+      }
+      
+      setMeta(response.meta);
+    } catch (err) {
+      if (err instanceof ApiError) {
+        setError(err.message);
+      } else {
+        setError('خطا در جستجوی محصولات. لطفا دوباره تلاش کنید.');
+      }
+      console.error('Search error:', err);
+    } finally {
       setLoading(false);
-    }, 1000);
-  };
+    }
+  }, [loading]);
 
-  const hasMore = displayedProducts.length < filteredProducts.length;
+  const search = useCallback((query: string) => {
+    if (!query.trim()) return;
+    
+    // Reset state for new search
+    setProducts([]);
+    setMeta(null);
+    setError(null);
+    
+    // Perform the search
+    performSearch(query, 0, true);
+  }, [performSearch]);
+
+  const loadMore = useCallback(() => {
+    if (!currentQuery.trim() || !meta?.has_more || loading) return;
+    
+    const nextOffset = meta.current_offset + meta.page_size;
+    performSearch(currentQuery, nextOffset, false);
+  }, [currentQuery, meta, loading, performSearch]);
+
+  const clearResults = useCallback(() => {
+    setProducts([]);
+    setMeta(null);
+    setError(null);
+    setCurrentQuery('');
+  }, []);
 
   return {
-    products: displayedProducts,
+    products,
     loading,
-    hasMore,
+    error,
+    hasMore: meta?.has_more ?? false,
+    totalCount: meta?.total_count ?? 0,
+    currentQuery,
+    search,
     loadMore,
-    totalCount: filteredProducts.length
+    clearResults
   };
 };
