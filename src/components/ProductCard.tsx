@@ -29,33 +29,37 @@ const ProductCard: React.FC<ProductCardProps> = ({
   };
 
   return (
-    <div className={`bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 overflow-hidden group border ${
-      isSelected ? 'border-orange-500 ring-2 ring-orange-200' : 'border-gray-100'
-    }`}>
+    <article 
+      className={`card-elevated overflow-hidden group ${
+        isSelected ? 'border-orange-500 ring-4 ring-orange-100 shadow-2xl scale-105' : ''
+      }`}
+      role="article"
+      aria-label={`محصول ${product.name}`}
+    >
       <div className="relative overflow-hidden">
         <img
           src={productImage}
           alt={product.name}
-          className="w-full h-48 sm:h-56 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-52 sm:h-64 object-cover group-hover:scale-110 transition-transform duration-500"
           loading="lazy"
           onError={(e) => {
-            e.currentTarget.src = `https://placehold.co/400x300/F3F4F6/6B7280?text=${encodeURIComponent('تصویر موجود نیست')}`;
+            e.currentTarget.src = `https://placehold.co/400x300/FED7AA/F97316?text=${encodeURIComponent('تصویر موجود نیست')}`;
           }}
         />
         {!product.is_available && (
-          <div className="absolute top-3 right-3 bg-red-500 text-white px-2 py-1 rounded-lg text-xs font-medium">
+          <div className="absolute top-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
             ناموجود
           </div>
         )}
         {product.has_free_shipping && (
-          <div className="absolute top-3 left-3 bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-medium">
+          <div className="absolute top-4 left-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
             ارسال رایگان
           </div>
         )}
         {isSelected && (
-          <div className="absolute inset-0 bg-orange-500 bg-opacity-20 flex items-center justify-center">
-            <div className="bg-orange-500 text-white rounded-full p-2">
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-orange-600/30 flex items-center justify-center backdrop-blur-sm">
+            <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full p-4 shadow-2xl animate-bounce-slow">
+              <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
@@ -63,20 +67,27 @@ const ProductCard: React.FC<ProductCardProps> = ({
         )}
       </div>
       
-      <div className="p-4 sm:p-6 text-right" dir="rtl">
-        <div className="mb-2">
-          <span className="text-xs text-gray-500 font-medium">
+      <div className="p-6 sm:p-8 text-right" dir="rtl">
+        <div className="mb-4">
+          <span className="inline-block bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm">
             {product.category_title}
           </span>
         </div>
         
-        <h3 className="font-semibold text-gray-900 text-lg mb-2 line-clamp-2 leading-tight">
+        <h3 className="font-bold text-gray-900 text-xl mb-4 line-clamp-2 leading-tight">
           {product.name}
         </h3>
         
-        <div className="mb-3">
-          <p className="text-sm text-gray-600">{product.vendor_name}</p>
-          <p className="text-xs text-gray-500">{product.status_title}</p>
+        <div className="mb-4">
+          <div className="flex items-center mb-2">
+            <svg className="w-4 h-4 text-gray-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+            <p className="text-sm text-gray-600 font-medium">{product.vendor_name}</p>
+          </div>
+          <p className="text-xs text-gray-500 bg-gray-50 px-2 py-1 rounded-full inline-block">
+            {product.status_title}
+          </p>
         </div>
         
         <div className="mb-4">
@@ -85,11 +96,11 @@ const ProductCard: React.FC<ProductCardProps> = ({
         
         <div className="flex items-center justify-between">
           <div className="flex flex-col">
-            <span className="text-xl font-bold text-gray-900">
-              {formatPrice(product.price)} تومان
+            <span className="text-3xl font-bold gradient-text text-shadow-orange">
+              {formatPrice(product.price)} ریال
             </span>
             {product.stock > 0 && (
-              <span className="text-xs text-gray-500">
+              <span className="text-sm text-orange-600 mt-2 font-semibold">
                 {product.stock} عدد موجود
               </span>
             )}
@@ -99,20 +110,22 @@ const ProductCard: React.FC<ProductCardProps> = ({
             <button 
               onClick={handleSelect}
               disabled={isSelected || !product.is_available}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${
+              className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 text-base transform hover:scale-105 ${
                 isSelected 
-                  ? 'bg-orange-500 text-white cursor-default' 
+                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white cursor-default shadow-orange-lg' 
                   : product.is_available
-                  ? 'bg-orange-500 hover:bg-orange-600 text-white'
+                  ? 'btn-primary'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
+              aria-label={isSelected ? 'محصول انتخاب شده' : product.is_available ? `انتخاب ${product.name}` : 'محصول ناموجود'}
+              aria-pressed={isSelected}
             >
               {isSelected ? 'انتخاب شده' : product.is_available ? 'انتخاب محصول' : 'ناموجود'}
             </button>
           )}
         </div>
       </div>
-    </div>
+    </article>
   );
 };
 

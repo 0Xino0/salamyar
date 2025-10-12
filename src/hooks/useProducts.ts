@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { Product, SearchMeta } from '../types/Product';
 import { api, ApiError } from '../services/api';
 
@@ -35,6 +35,8 @@ export const useProducts = () => {
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);
+      } else if (err instanceof Error) {
+        setError(err.message);
       } else {
         setError('خطا در جستجوی محصولات. لطفا دوباره تلاش کنید.');
       }
@@ -70,7 +72,7 @@ export const useProducts = () => {
     setCurrentQuery('');
   }, []);
 
-  return {
+  const memoizedReturn = useMemo(() => ({
     products,
     loading,
     error,
@@ -80,5 +82,7 @@ export const useProducts = () => {
     search,
     loadMore,
     clearResults
-  };
+  }), [products, loading, error, meta, currentQuery, search, loadMore, clearResults]);
+
+  return memoizedReturn;
 };

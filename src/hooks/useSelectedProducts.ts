@@ -13,6 +13,7 @@ export const useSelectedProducts = () => {
   const [error, setError] = useState<string | null>(null);
   const [currentSearchSessionId, setCurrentSearchSessionId] = useState<string | null>(null);
   const [selectedProductIdForCurrentSearch, setSelectedProductIdForCurrentSearch] = useState<number | null>(null);
+  const [hasEverSelectedProducts, setHasEverSelectedProducts] = useState(false);
 
   // Generate a unique session ID for each search
   const generateSessionId = () => {
@@ -35,6 +36,10 @@ export const useSelectedProducts = () => {
     try {
       const response = await api.getSelectedProducts();
       setSelectedProducts(response.products);
+      // If there are products loaded from backend, mark that products have been selected
+      if (response.products.length > 0) {
+        setHasEverSelectedProducts(true);
+      }
     } catch (err) {
       if (err instanceof ApiError) {
         setError(err.message);
@@ -77,6 +82,7 @@ export const useSelectedProducts = () => {
       const selectedProduct = await api.selectProduct(request);
       setSelectedProducts(prev => [selectedProduct, ...prev]);
       setSelectedProductIdForCurrentSearch(product.id);
+      setHasEverSelectedProducts(true); // Mark that products have been selected
       return true;
     } catch (err) {
       if (err instanceof ApiError) {
@@ -179,6 +185,7 @@ export const useSelectedProducts = () => {
     error,
     currentSearchSessionId,
     selectedProductIdForCurrentSearch,
+    hasEverSelectedProducts,
     startNewSearchSession,
     selectProduct,
     removeProduct,
