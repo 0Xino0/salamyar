@@ -11,14 +11,14 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, reviewCount }) => {
   const hasHalfStar = rating % 1 !== 0;
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-4">
       <div className="flex items-center">
         {[...Array(5)].map((_, index) => (
           <Star
             key={index}
-            className={`w-4 h-4 ${
+            className={`w-6 h-6 transition-colors duration-200 ${
               index < fullStars
-                ? 'text-orange-400 fill-current'
+                ? 'text-orange-400 fill-current drop-shadow-sm'
                 : index === fullStars && hasHalfStar
                 ? 'text-orange-400 fill-current opacity-50'
                 : 'text-gray-300'
@@ -26,8 +26,8 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, reviewCount }) => {
           />
         ))}
       </div>
-      <span className="text-sm text-gray-600">
-        {rating} ({reviewCount} نظر)
+      <span className="text-sm text-gray-600 font-semibold">
+        {rating > 0 ? `${rating} (${reviewCount} نظر)` : 'بدون امتیاز'}
       </span>
     </div>
   );

@@ -23,30 +23,38 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch, initialValue = '' }) =>
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto mb-8">
+    <div className="w-full max-w-4xl mx-auto">
       <form onSubmit={handleSubmit} className="relative">
-        <input
-          type="text"
-          placeholder="جستجو محصولات... (Enter را فشار دهید یا دکمه جستجو را کلیک کنید)"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyPress={handleKeyPress}
-          className="block w-full pr-4 pl-16 py-4 text-lg border border-gray-200 rounded-xl focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all duration-200 bg-white shadow-sm hover:shadow-md text-right"
-          dir="rtl"
-        />
-        <button
-          type="submit"
-          className="absolute inset-y-0 left-0 pl-4 flex items-center"
-          disabled={!inputValue.trim()}
-        >
-          <div className={`p-2 rounded-lg transition-colors duration-200 ${
-            inputValue.trim() 
-              ? 'bg-orange-500 hover:bg-orange-600 text-white cursor-pointer' 
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
-          }`}>
-            <Search className="h-5 w-5" />
-          </div>
-        </button>
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="جستجو محصولات... (مثال: آیفون، لپ‌تاپ، کتاب، کفش، لباس)"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            onKeyPress={handleKeyPress}
+            className="input-primary pr-20 pl-6 py-5 text-xl font-medium"
+            dir="rtl"
+            aria-label="جستجوی محصولات"
+            aria-describedby="search-help"
+          />
+          <button
+            type="submit"
+            className="absolute inset-y-0 left-0 pl-6 flex items-center"
+            disabled={!inputValue.trim()}
+            aria-label="جستجو"
+          >
+            <div className={`p-4 rounded-2xl transition-all duration-300 transform hover:scale-105 ${
+              inputValue.trim() 
+                ? 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white shadow-orange hover:shadow-orange-lg' 
+                : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+            }`}>
+              <Search className="h-7 w-7" />
+            </div>
+          </button>
+        </div>
+        <div id="search-help" className="text-sm text-orange-600 mt-4 text-center font-medium" dir="rtl">
+          Enter را فشار دهید یا دکمه جستجو را کلیک کنید
+        </div>
       </form>
     </div>
   );
