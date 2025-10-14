@@ -1,6 +1,5 @@
 import { useState, useCallback } from 'react';
 import { useAuth } from './hooks/useAuth.tsx';
-import LandingPage from './components/LandingPage.tsx';
 import HeaderNav from './components/HeaderNav.tsx';
 import SearchBar from './components/SearchBar';
 import ProductGrid from './components/ProductGrid';
@@ -12,7 +11,7 @@ import { useSelectedProducts } from './hooks/useSelectedProducts';
 import { Product, CartConfirmationResponse } from './types/Product';
 
 function App() {
-  const { isAuthenticated, loading: authLoading } = useAuth();
+  const { loading: authLoading } = useAuth();
   const [isCartConfirmationOpen, setIsCartConfirmationOpen] = useState(false);
   const [cartConfirmationData, setCartConfirmationData] = useState<CartConfirmationResponse | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
@@ -91,12 +90,7 @@ function App() {
     );
   }
 
-  // Show landing page if not authenticated
-  if (!isAuthenticated) {
-    return <LandingPage />;
-  }
-
-  // Show main app if authenticated
+  // Main app (assumes user is authenticated via routing)
   return (
     <ErrorBoundary>
       <div className="min-h-screen relative">

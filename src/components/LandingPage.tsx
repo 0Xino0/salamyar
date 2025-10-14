@@ -185,13 +185,23 @@ export default function LandingPage() {
               </div>
 
               <div className="pt-8">
-                <button
-                  onClick={() => window.location.href = '/app'}
-                  className="btn-primary text-xl px-12 py-6"
-                  dir="rtl"
-                >
-                  شروع کنید
-                </button>
+                {isAuthenticated ? (
+                  <button
+                    onClick={() => window.location.href = '/search'}
+                    className="btn-primary text-xl px-12 py-6"
+                    dir="rtl"
+                  >
+                    شروع کنید
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleLoginClick}
+                    className="btn-primary text-xl px-12 py-6"
+                    dir="rtl"
+                  >
+                    شروع کنید
+                  </button>
+                )}
               </div>
             </div>
           </div>
@@ -214,7 +224,7 @@ export default function LandingPage() {
                   </p>
                 </div>
               </div>
-              
+
               {/* Floating elements */}
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-orange-300/50 rounded-full animate-pulse-slow"></div>
               <div className="absolute -bottom-4 -left-4 w-16 h-16 bg-orange-400/50 rounded-full animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
