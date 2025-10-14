@@ -187,7 +187,7 @@ export default function LandingPage() {
               <div className="pt-8">
                 {isAuthenticated ? (
                   <button
-                    onClick={() => window.location.href = '/search'}
+                    onClick={() => window.location.href = '/main'}
                     className="btn-primary text-xl px-12 py-6"
                     dir="rtl"
                   >

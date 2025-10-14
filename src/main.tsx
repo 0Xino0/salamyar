@@ -35,7 +35,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/search" element={<ProtectedRoute><App /></ProtectedRoute>} />
+      <Route path="/main" element={<ProtectedRoute><App /></ProtectedRoute>} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
