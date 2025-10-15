@@ -15,6 +15,19 @@ export class ApiError extends Error {
   }
 }
 
+const getAuthHeaders = (): HeadersInit => {
+  const token = localStorage.getItem('authToken');
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+  };
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+  
+  return headers;
+};
+
 const handleResponse = async <T>(response: Response): Promise<T> => {
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
@@ -46,9 +59,7 @@ export const api = {
   selectProduct: async (request: SelectProductRequest): Promise<SelectedProduct> => {
     const response = await fetch(`${API_BASE_URL}/selections/products`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
       body: JSON.stringify(request),
     });
     return handleResponse<SelectedProduct>(response);
@@ -56,7 +67,9 @@ export const api = {
 
   // Get all selected products
   getSelectedProducts: async (): Promise<SelectedProductsResponse> => {
-    const response = await fetch(`${API_BASE_URL}/selections/products`);
+    const response = await fetch(`${API_BASE_URL}/selections/products`, {
+      headers: getAuthHeaders(),
+    });
     return handleResponse<SelectedProductsResponse>(response);
   },
 
@@ -64,6 +77,7 @@ export const api = {
   removeSelectedProduct: async (productId: number): Promise<{ message: string; success: boolean }> => {
     const response = await fetch(`${API_BASE_URL}/selections/products/${productId}`, {
       method: 'DELETE',
+      headers: getAuthHeaders(),
     });
     return handleResponse<{ message: string; success: boolean }>(response);
   },
@@ -72,6 +86,7 @@ export const api = {
   clearSelectedProducts: async (): Promise<{ message: string; success: boolean }> => {
     const response = await fetch(`${API_BASE_URL}/selections/products`, {
       method: 'DELETE',
+      headers: getAuthHeaders(),
     });
     return handleResponse<{ message: string; success: boolean }>(response);
   },
@@ -80,9 +95,7 @@ export const api = {
   confirmShoppingCart: async (): Promise<CartConfirmationResponse> => {
     const response = await fetch(`${API_BASE_URL}/selections/confirm`, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: getAuthHeaders(),
     });
     return handleResponse<CartConfirmationResponse>(response);
   },
