@@ -31,7 +31,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   return (
     <article 
       className={`card-elevated overflow-hidden group ${
-        isSelected ? 'border-orange-500 ring-4 ring-orange-100 shadow-2xl scale-105' : ''
+        isSelected ? 'shadow-2xl scale-105' : ''
       }`}
       role="article"
       aria-label={`محصول ${product.name}`}
@@ -57,8 +57,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         )}
         {isSelected && (
-          <div className="absolute inset-0 bg-gradient-to-br from-orange-500/30 to-orange-600/30 flex items-center justify-center backdrop-blur-sm">
-            <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white rounded-full p-4 shadow-2xl animate-bounce-slow">
+          <div className="absolute inset-0 flex items-center justify-center backdrop-blur-sm" style={{ background: 'linear-gradient(135deg, rgba(218,60,51,0.25), rgba(218,60,51,0.35))' }}>
+            <div className="text-white rounded-full p-4 shadow-2xl animate-bounce-slow" style={{ backgroundColor: '#da3c33' }}>
               <svg className="w-10 h-10" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
@@ -69,7 +69,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
       
       <div className="p-6 sm:p-8 text-right" dir="rtl">
         <div className="mb-4">
-          <span className="inline-block bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 text-sm font-semibold px-4 py-2 rounded-full shadow-sm">
+          <span className="inline-block text-sm font-semibold px-4 py-2 rounded-full shadow-sm" style={{ background: 'linear-gradient(135deg, #fff2f1, #ffe6e4)', color: '#b12a24' }}>
             {product.category_title}
           </span>
         </div>
@@ -100,7 +100,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
               {formatPrice(product.price)} ریال
             </span>
             {product.stock > 0 && (
-              <span className="text-sm text-orange-600 mt-2 font-semibold">
+              <span className="text-sm mt-2 font-semibold" style={{ color: '#da3c33' }}>
                 {product.stock} عدد موجود
               </span>
             )}
@@ -112,11 +112,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
               disabled={isSelected || !product.is_available}
               className={`px-8 py-4 rounded-2xl font-semibold transition-all duration-300 text-base transform hover:scale-105 ${
                 isSelected 
-                  ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white cursor-default shadow-orange-lg' 
+                  ? 'text-white cursor-default' 
                   : product.is_available
                   ? 'btn-primary'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
               }`}
+              style={isSelected ? { backgroundColor: '#da3c33' } : undefined}
               aria-label={isSelected ? 'محصول انتخاب شده' : product.is_available ? `انتخاب ${product.name}` : 'محصول ناموجود'}
               aria-pressed={isSelected}
             >

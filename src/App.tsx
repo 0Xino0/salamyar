@@ -6,6 +6,7 @@ import ProductGrid from './components/ProductGrid';
 import SelectedProductsList from './components/SelectedProductsList';
 import CartConfirmation from './components/CartConfirmation';
 import ErrorBoundary from './components/ErrorBoundary';
+import Footer from './components/Footer';
 import { useProducts } from './hooks/useProducts';
 import { useSelectedProducts } from './hooks/useSelectedProducts';
 import { Product, CartConfirmationResponse } from './types/Product';
@@ -15,6 +16,7 @@ function App() {
   const [isCartConfirmationOpen, setIsCartConfirmationOpen] = useState(false);
   const [cartConfirmationData, setCartConfirmationData] = useState<CartConfirmationResponse | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [showNoteMore, setShowNoteMore] = useState(false);
 
   // Search products hook
   const { products, loading, error, hasMore, loadMore, totalCount, currentQuery, search } = useProducts();
@@ -79,7 +81,7 @@ function App() {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-slow">
+          <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse-slow" style={{ backgroundColor: '#da3c33' }}>
             <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
@@ -109,23 +111,39 @@ function App() {
         <header className="glass-nav backdrop-blur-md">
           <div className="max-w-7xl mx-auto px-4 py-8">
             <div className="text-center mb-10 animate-fade-in-up">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-20 h-20 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center shadow-orange-lg">
-                  <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-              </div>
               <h1 className="text-5xl md:text-6xl font-bold gradient-text mb-4 text-shadow-orange" dir="rtl">
                 سلامیار
               </h1>
-              <h2 className="text-2xl md:text-3xl font-semibold text-orange-700 mb-4" dir="rtl">
-                جستجوی هوشمند محصولات
-              </h2>
               <p className="text-gray-700 text-lg md:text-xl max-w-4xl mx-auto leading-relaxed font-medium" dir="rtl">
-                با سلامیار، محصولات مورد نظر خود را جستجو کنید و بهترین فروشندگان را پیدا کنید
+                محصولات مورد نظر خود را در کادر زیر جستجو کنید.
                 <br />
-                <span className="text-orange-600 font-semibold">تجربه خرید هوشمند و آسان</span>
+                <span className="text-sm md:text-base" style={{ color: '#da3c33' }}>
+                  توجه داشته باشید که هر بار فقط اسم یک محصول را در کادر زیر میتوانید وارد کنید.
+                  {!showNoteMore ? (
+                    <button
+                      type="button"
+                      onClick={() => setShowNoteMore(true)}
+                      className="ml-1 underline"
+                      style={{ color: '#da3c33' }}
+                    >
+                      ...
+                    </button>
+                  ) : (
+                    <>
+                      <span className="block mt-2 text-gray-700" dir="rtl">
+                        پس از انتخاب محصولی که نام آن را جستجو کرده اید میتوانید نام محصول مورد نظر بعدی خود را در کادر زیر نوشته و جستجو کنید ؛ تا وقتی که تمامی محصولات را انتخاب کرده و با زدن دکمه تایید و یافتن فروشندگان جستجو هوشمند سلامیار آغاز میشود.
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setShowNoteMore(false)}
+                        className="mt-1 underline"
+                        style={{ color: '#da3c33' }}
+                      >
+                        بستن
+                      </button>
+                    </>
+                  )}
+                </span>
               </p>
             </div>
             <div className="animate-fade-in-up max-w-4xl mx-auto" style={{ animationDelay: '0.2s' }}>
@@ -184,7 +202,7 @@ function App() {
                       )}
                     </p>
                   </div>
-                  <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                  <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#da3c33' }}>
                     <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
@@ -205,66 +223,10 @@ function App() {
             </div>
           )}
 
-          {/* Initial State - No Search */}
-          {!currentQuery && (
-            <div className="text-center py-20 animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
-              <div className="card p-12 max-w-2xl mx-auto">
-                <div className="w-24 h-24 bg-gradient-to-r from-orange-500 to-orange-600 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-lg">
-                  <svg className="w-12 h-12 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <h3 className="text-3xl font-bold gradient-text mb-4" dir="rtl">به سلامیار خوش آمدید</h3>
-                <p className="text-gray-600 text-lg leading-relaxed mb-8" dir="rtl">
-                  برای شروع، نام محصول مورد نظر خود را در نوار جستجو بالا وارد کنید.
-                  ما بهترین فروشندگان را برای شما پیدا می‌کنیم.
-                </p>
-                <div className="flex flex-wrap justify-center gap-4">
-                  <div className="flex items-center text-sm text-gray-500">
-                    <svg className="w-5 h-5 text-orange-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    جستجوی هوشمند
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <svg className="w-5 h-5 text-orange-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    مقایسه فروشندگان
-                  </div>
-                  <div className="flex items-center text-sm text-gray-500">
-                    <svg className="w-5 h-5 text-orange-500 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    تحلیل هوشمند
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          {/* Initial state section removed per request */}
         </main>
 
-        {/* Footer */}
-        <footer className="glass mt-20">
-          <div className="max-w-7xl mx-auto px-4 py-12">
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-6">
-                <div className="w-12 h-12 bg-gradient-to-r from-orange-500 to-orange-600 rounded-xl flex items-center justify-center shadow-lg">
-                  <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                  </svg>
-                </div>
-                <span className="text-2xl font-bold gradient-text mr-3">سلامیار</span>
-              </div>
-              <p className="text-gray-600 mb-4" dir="rtl">
-                جستجوی هوشمند محصولات و یافتن بهترین فروشندگان
-              </p>
-              <p className="text-sm text-gray-500" dir="rtl">
-                &copy; ۱۴۰۳ سلامیار. تمامی حقوق محفوظ است.
-              </p>
-            </div>
-          </div>
-        </footer>
+        <Footer />
 
         {/* Cart Confirmation Modal */}
         <CartConfirmation

@@ -20,11 +20,11 @@ const CartConfirmation: React.FC<CartConfirmationProps> = ({
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-md flex items-center justify-center p-4 z-50">
-      <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto border border-orange-100">
-        <div className="sticky top-0 bg-gradient-to-r from-orange-50 to-orange-100 border-b border-orange-200 px-10 py-8 rounded-t-3xl">
+      <div className="bg-white/95 backdrop-blur-lg rounded-3xl shadow-2xl w-full max-w-6xl max-h-[90vh] overflow-y-auto" style={{ border: '1px solid #f5c2bf' }}>
+        <div className="sticky top-0 px-10 py-8 rounded-t-3xl" style={{ background: 'linear-gradient(90deg, #fff2f1, #ffe6e4)', borderBottom: '1px solid #f5c2bf' }}>
           <div className="flex justify-between items-center">
             <div className="flex items-center">
-              <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-orange-lg ml-6">
+              <div className="w-16 h-16 rounded-2xl flex items-center justify-center ml-6" style={{ backgroundColor: '#da3c33' }}>
                 <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -61,11 +61,11 @@ const CartConfirmation: React.FC<CartConfirmationProps> = ({
               </div>
               <div className="text-lg font-semibold text-green-800">محصولات مشابه یافت شده</div>
             </div>
-            <div className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-2xl p-6 text-center shadow-lg">
-              <div className="text-4xl font-bold text-orange-600 mb-2">
+            <div className="rounded-2xl p-6 text-center shadow-lg" style={{ background: 'linear-gradient(135deg, #fff2f1, #ffe6e4)', border: '1px solid #f5c2bf' }}>
+              <div className="text-4xl font-bold mb-2" style={{ color: '#da3c33' }}>
                 {confirmationData.vendors_with_multiple_matches.length}
               </div>
-              <div className="text-lg font-semibold text-orange-800">فروشندگان با چندین محصول</div>
+              <div className="text-lg font-semibold" style={{ color: '#b12a24' }}>فروشندگان با چندین محصول</div>
             </div>
           </div>
 
@@ -93,17 +93,17 @@ const CartConfirmation: React.FC<CartConfirmationProps> = ({
             ) : (
               <div className="space-y-8">
                 {confirmationData.vendors_with_multiple_matches.map((vendor: VendorMatch) => (
-                  <div key={vendor.vendor_id} className="bg-gradient-to-br from-orange-50 to-orange-100 border border-orange-200 rounded-2xl p-8 shadow-lg">
+                  <div key={vendor.vendor_id} className="rounded-2xl p-8 shadow-lg" style={{ background: 'linear-gradient(135deg, #fff2f1, #ffe6e4)', border: '1px solid #f5c2bf' }}>
                     <div className="flex justify-between items-start mb-6">
                       <div>
-                        <h4 className="text-2xl font-bold text-orange-800 mb-3">
+                        <h4 className="text-2xl font-bold mb-3" style={{ color: '#b12a24' }}>
                           {vendor.vendor_name}
                         </h4>
-                        <p className="text-orange-700 mb-3 text-lg font-semibold">
+                        <p className="mb-3 text-lg font-semibold" style={{ color: '#c7322b' }}>
                           این فروشنده {vendor.matched_products_count} محصول از لیست شما را دارد
                         </p>
                       </div>
-                      <div className="bg-gradient-to-r from-orange-600 to-orange-700 text-white px-6 py-3 rounded-full text-lg font-bold shadow-lg">
+                      <div className="text-white px-6 py-3 rounded-full text-lg font-bold shadow-lg" style={{ backgroundColor: '#da3c33' }}>
                         {vendor.matched_products_count} محصول
                       </div>
                     </div>
@@ -111,7 +111,7 @@ const CartConfirmation: React.FC<CartConfirmationProps> = ({
                     <div className="space-y-4">
                       <h5 className="font-bold text-gray-800 mb-4 text-lg">محصولات مشابه موجود:</h5>
                       {vendor.similar_products.map((product) => (
-                        <div key={product.id} className="bg-white/80 backdrop-blur-sm border border-orange-200 rounded-2xl p-6 shadow-md">
+                        <div key={product.id} className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-md" style={{ border: '1px solid #f5c2bf' }}>
                           <div className="flex justify-between items-start">
                             <div className="flex-grow">
                               <h6 className="font-medium text-gray-900 mb-2">{product.name}</h6>

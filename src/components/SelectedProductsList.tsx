@@ -25,8 +25,8 @@ const SelectedProductsList: React.FC<SelectedProductsListProps> = ({
   if (selectedProducts.length === 0 && hasEverSelectedProducts) {
     return (
       <div className="card-elevated p-12 text-center mb-8" dir="rtl">
-        <div className="w-24 h-24 bg-gradient-to-r from-orange-100 to-orange-200 rounded-full flex items-center justify-center mx-auto mb-8">
-          <svg className="w-12 h-12 text-orange-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-8" style={{ backgroundColor: '#fde7e6' }}>
+          <svg className="w-12 h-12" style={{ color: '#da3c33' }} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
           </svg>
         </div>
@@ -45,7 +45,7 @@ const SelectedProductsList: React.FC<SelectedProductsListProps> = ({
     <div className="card-elevated p-10 mb-8" dir="rtl">
       <div className="flex justify-between items-center mb-10">
         <div className="flex items-center">
-          <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-orange-600 rounded-2xl flex items-center justify-center shadow-orange-lg ml-6">
+          <div className="w-16 h-16 rounded-2xl flex items-center justify-center ml-6" style={{ backgroundColor: '#da3c33' }}>
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
@@ -82,7 +82,7 @@ const SelectedProductsList: React.FC<SelectedProductsListProps> = ({
       
       <div className="space-y-6">
         {selectedProducts.map((product) => (
-          <div key={product.id} className="bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
+          <div key={product.id} className="rounded-2xl p-8 hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1" style={{ background: 'linear-gradient(135deg, #fff2f1, #ffe6e4)', border: '1px solid #f5c2bf' }}>
             <div className="flex items-center justify-between">
               <div className="flex items-center flex-grow">
                 {product.image_url && (
@@ -95,7 +95,7 @@ const SelectedProductsList: React.FC<SelectedProductsListProps> = ({
                         e.currentTarget.src = `https://placehold.co/80x80/FED7AA/F97316?text=${encodeURIComponent('عکس')}`;
                       }}
                     />
-                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-orange-500 to-orange-600 rounded-full flex items-center justify-center">
+                    <div className="absolute -top-2 -right-2 w-6 h-6 rounded-full flex items-center justify-center" style={{ backgroundColor: '#da3c33' }}>
                       <svg className="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>

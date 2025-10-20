@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import App from './App.tsx';
 import LandingPage from './components/LandingPage.tsx';
+import About from './components/About.tsx';
 import './index.css';
 import { AuthProvider, useAuth } from './hooks/useAuth.tsx';
 
@@ -36,6 +37,7 @@ function AppRoutes() {
     <Routes>
       <Route path="/" element={<LandingPage />} />
       <Route path="/main" element={<ProtectedRoute><App /></ProtectedRoute>} />
+      <Route path="/about" element={<About />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );

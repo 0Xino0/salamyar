@@ -44,13 +44,15 @@ class ErrorBoundary extends Component<Props, State> {
             <div className="space-y-3">
               <button
                 onClick={() => window.location.reload()}
-                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-medium px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                className="w-full text-white font-medium px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                style={{ backgroundColor: '#da3c33' }}
               >
                 رفرش صفحه
               </button>
               <button
                 onClick={() => this.setState({ hasError: false, error: undefined })}
-                className="w-full bg-white hover:bg-gray-50 text-orange-600 font-medium px-6 py-3 rounded-xl border-2 border-orange-200 hover:border-orange-300 transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                className="w-full bg-white hover:bg-gray-50 font-medium px-6 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg"
+                style={{ color: '#da3c33', border: '2px solid #f5c2bf' }}
               >
                 تلاش مجدد
               </button>
